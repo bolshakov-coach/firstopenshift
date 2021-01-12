@@ -5,10 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app.data")
 public class OpenshiftPropertiesConfig {
 
-    private String test;
-    private String username;
-    private String twoWords;
-    private String anotherValue;
+    private String test = "By default";
+    private String username = "By default";
+    private String twoWords = "By default";
+    private String anotherValue = "By default";
 
     public String getTest() {
         return test;

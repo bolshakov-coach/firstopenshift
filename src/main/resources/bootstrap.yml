@@ -3,9 +3,8 @@ spring:
     kubernetes:
       config:
         enabled: true
-        sources:
-          - namespace: myproject
-            name: my-config-map
+        name: my-config-map
+        namespace: myproject
 management:
   endpoint:
     restart:
