@@ -3,7 +3,7 @@ spring:
     kubernetes:
       config:
         enabled: true
-        name: my-config-map
+        name: openshift-sample
         namespace: myproject
 management:
   endpoint:
