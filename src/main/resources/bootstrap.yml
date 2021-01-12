@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        sources:
+          - namespace: myproject
+            name: my-config-map
+management:
+  endpoint:
+    restart:
+      enabled: true

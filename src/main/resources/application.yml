@@ -1,0 +1,17 @@
+management:
+  endpoint:
+    web:
+      exposure:
+        inculde: info, refresh, keepalive, health
+logging:
+  level:
+    org.springframework.cloud.kubernetes: DEBUG
+
+spring:
+  application:
+    name: openshift-sample
+
+vtb:
+  application:
+    prop:
+      value: some value from application file in resources
