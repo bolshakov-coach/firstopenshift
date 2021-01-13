@@ -5,6 +5,10 @@ spring:
         enabled: true
         name: openshift-sample
         namespace: myproject
+      reload:
+        enabled: true
+        mode: event
+        strategy: refresh
 management:
   endpoint:
     restart:
