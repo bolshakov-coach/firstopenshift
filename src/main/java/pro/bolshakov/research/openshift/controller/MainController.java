@@ -19,6 +19,9 @@ public class MainController {
     @Value("${vtb.application.prop.value}")
     private String vtbAppPropValue;
 
+    @Value("${db.username}")
+    private String dbUsername;
+
     @Autowired
     private Environment env;
 
@@ -32,6 +35,7 @@ public class MainController {
         builder.append("Values from props -> <ul>");
         builder.append("<li>").append("test.var.message = ").append(testText).append("</li>");
         builder.append("<li>").append("vtb.application.prop.value = ").append(vtbAppPropValue).append("</li>");
+        builder.append("<li>").append("db.username = ").append(dbUsername).append("</li>");
         builder.append("</ul>");
 
         builder.append("<br>");
