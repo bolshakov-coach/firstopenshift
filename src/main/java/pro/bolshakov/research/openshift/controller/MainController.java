@@ -12,17 +12,29 @@ public class MainController {
     @Value("${test.var.message:not_found}")
     private String testText;
 
+    @Value("${vtb.application.prop.value}")
+    private String vtbAppPropValue;
+
     @Autowired
     private OpenshiftPropertiesConfig openshiftProperties;
 
     @GetMapping("")
     public String index(){
-        return "It is working. Value from test.var.message -> " + testText;
-    }
 
-    @GetMapping("/props")
-    public PropertiesHolder valueTest(){
-        return openshiftProperties == null ? new PropertiesHolder() : new PropertiesHolder(openshiftProperties);
+        StringBuilder builder = new StringBuilder();
+        builder.append("Values from props -> <ul>");
+        builder.append("<li>").append("test.var.message = ").append(testText).append("</li>");
+        builder.append("<li>").append("vtb.application.prop.value = ").append(vtbAppPropValue).append("</li>");
+        builder.append("</ul>");
+
+        builder.append("<br>");
+
+        PropertiesHolder propertiesHolder = openshiftProperties == null ?
+                new PropertiesHolder() : new PropertiesHolder(openshiftProperties);
+
+        builder.append(propertiesHolder.toString());
+
+        return builder.toString();
     }
 
     public class PropertiesHolder{
@@ -40,21 +52,15 @@ public class MainController {
             this.username = openshiftProps.getUsername();
             this.twoWords = openshiftProps.getTwoWords();
         }
-
-        public String getAnotherValue() {
-            return anotherValue;
-        }
-
-        public String getTest() {
-            return test;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getTwoWords() {
-            return twoWords;
+        @Override
+        public String toString() {
+            return "PropertiesHolder ->" +
+                    "<ul>" +
+                    "<li>anotherValue=" + anotherValue + "</li>" +
+                    "<li>test=" + test + "</li>" +
+                    "<li>username=" + username + "</li>" +
+                    "<li>twoWords=" + twoWords + "</li>" +
+                    "</ul>";
         }
     }
 
