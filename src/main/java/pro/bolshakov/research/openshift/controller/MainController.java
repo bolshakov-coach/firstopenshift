@@ -2,10 +2,7 @@ package pro.bolshakov.research.openshift.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.AbstractEnvironment;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
@@ -63,12 +60,31 @@ public class MainController {
                 }
                 builder.append("</ul>");
             }
+            else if(propertySource instanceof EnumerablePropertySource){
+                addInfoAboutEnumerablePropertySource(builder, (EnumerablePropertySource) propertySource);
+            }
             else {
                 System.out.println(propertySource.getName() + " -> " + propertySource.getClass().getName());
             }
         }
         return builder.toString();
     }
+
+    private void addInfoAboutEnumerablePropertySource(StringBuilder builder, EnumerablePropertySource source){
+        builder.append("<br><b>Source from ")
+                .append(source.getName())
+                .append(" - Class = ").append(source.getClass().getName())
+                .append("</b><br><ul>");
+
+        for (String propertyName : source.getPropertyNames()) {
+            builder.append("<li>Key -> ")
+                    .append(propertyName)
+                    .append(" = ")
+                    .append(source.getProperty(propertyName))
+                    .append("</li>");
+        }
+    }
+
 
     public class PropertiesHolder{
         private String anotherValue = "default";
