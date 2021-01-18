@@ -81,7 +81,7 @@ public class MainController {
     @GetMapping("/discovery")
     public String tryDiscovery(){
         return "<h1>It is answer from second service</h1>" +
-                restTemplate.getForObject("http://second", String.class);
+                restTemplate.getForObject("http://resthelloworld", String.class);
     }
 
     private void addInfoAboutEnumerablePropertySource(StringBuilder builder, EnumerablePropertySource source){
