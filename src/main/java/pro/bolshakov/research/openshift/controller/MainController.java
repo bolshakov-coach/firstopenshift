@@ -92,14 +92,15 @@ public class MainController {
         for (String service : discoveryClient.getServices()) {
             System.out.println(service);
         }
-        List<ServiceInstance> instances = discoveryClient.getInstances("resthelloworld");
+        String serviceName = "resthelloworld";
+        String servicePort = "8080";
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceName);
         instances = instances == null ? new ArrayList<>() : instances;
 
         System.out.println("Instances for rest-hello-world");
-        instances.forEach(instance -> System.out.println(instance.getServiceId()));
+        instances.forEach(instance -> System.out.println(instance.getInstanceId()));
         Optional<ServiceInstance> first = instances.stream().findFirst();
 
-        String response = "none";
         if(first.isPresent()){
             System.out.println("Details about first instance");
             ServiceInstance instance = first.get();
@@ -110,9 +111,9 @@ public class MainController {
             System.out.println("metadata -> " + instance.getMetadata());
             System.out.println("port -> " + instance.getPort());
             System.out.println("uri -> " + instance.getUri());
-
-            response = restTemplate.getForObject("http://" + openshiftProperties.getSecondAppUrl(), String.class);
         }
+        String finalUrl = serviceName + "." + openshiftNamespace + ".svc:" + servicePort;
+        String response = restTemplate.getForObject("http://" + finalUrl, String.class);
 
         return "<h1>It is answer from second service</h1>" + response;
     }
@@ -140,7 +141,6 @@ public class MainController {
         private String username = "default";
         private String twoWords = "default";
         private String mongodbUsername = "default";
-        private String secondAppUrl = "default";
 
         public PropertiesHolder() {
         }
@@ -151,7 +151,6 @@ public class MainController {
             this.username = openshiftProps.getUsername();
             this.twoWords = openshiftProps.getTwoWords();
             this.mongodbUsername = openshiftProps.getMongodbUsername();
-            this.secondAppUrl = openshiftProps.getSecondAppUrl();
         }
 
         @Override
