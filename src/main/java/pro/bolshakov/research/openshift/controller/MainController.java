@@ -63,6 +63,9 @@ public class MainController {
                 }
                 builder.append("</ul>");
             }
+            else {
+                System.out.println(propertySource.getName() + " -> " + propertySource.getClass().getName());
+            }
         }
         return builder.toString();
     }
