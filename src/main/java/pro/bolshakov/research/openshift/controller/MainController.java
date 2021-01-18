@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
@@ -78,10 +79,10 @@ public class MainController {
         return builder.toString();
     }
 
-    @GetMapping("/discovery")
-    public String tryDiscovery(){
+    @GetMapping("/discovery/{path}")
+    public String tryDiscovery(@PathVariable String path){
         return "<h1>It is answer from second service</h1>" +
-                restTemplate.getForObject("http://second", String.class);
+                restTemplate.getForObject("http://" + path, String.class);
     }
 
     private void addInfoAboutEnumerablePropertySource(StringBuilder builder, EnumerablePropertySource source){
