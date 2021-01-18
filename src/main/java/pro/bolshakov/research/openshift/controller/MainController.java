@@ -25,6 +25,9 @@ public class MainController {
     @Value("${db.username}")
     private String dbUsername;
 
+    @Value("${OPENSHIFT_BUILD_NAMESPACE:none}")
+    private String openshiftNamespace;
+
     @Autowired
     private Environment env;
 
@@ -108,7 +111,7 @@ public class MainController {
             System.out.println("port -> " + instance.getPort());
             System.out.println("uri -> " + instance.getUri());
 
-            response = restTemplate.getForObject(instance.getUri(), String.class);
+            response = restTemplate.getForObject("http://resthelloworld.myproject.svc", String.class);
         }
 
         return "<h1>It is answer from second service</h1>" + response;
