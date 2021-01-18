@@ -98,7 +98,17 @@ public class MainController {
 
         String response = "none";
         if(first.isPresent()){
-            response = restTemplate.getForObject("http://" + first.get().getServiceId(), String.class);
+            System.out.println("Details about first instance");
+            ServiceInstance instance = first.get();
+            System.out.println("service id -> " + instance.getServiceId());
+            System.out.println("host -> " + instance.getHost());
+            System.out.println("instance id -> " + instance.getInstanceId());
+            System.out.println("scheme -> " + instance.getScheme());
+            System.out.println("metadata -> " + instance.getMetadata());
+            System.out.println("port -> " + instance.getPort());
+            System.out.println("uri -> " + instance.getUri());
+
+            response = restTemplate.getForObject(instance.getUri(), String.class);
         }
 
         return "<h1>It is answer from second service</h1>" + response;
