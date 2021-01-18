@@ -9,6 +9,7 @@ public class OpenshiftPropertiesConfig {
     private String username = "By default";
     private String twoWords = "By default";
     private String anotherValue = "By default";
+    private String mongodbUsername = "By default";
 
     public String getTest() {
         return test;
@@ -44,5 +45,13 @@ public class OpenshiftPropertiesConfig {
     public void setAnotherValue(String anotherValue) {
         System.out.println("Invoked set for another value");
         this.anotherValue = anotherValue;
+    }
+
+    public String getMongodbUsername() {
+        return mongodbUsername;
+    }
+
+    public void setMongodbUsername(String mongodbUsername) {
+        this.mongodbUsername = mongodbUsername;
     }
 }

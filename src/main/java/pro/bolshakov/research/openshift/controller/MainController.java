@@ -92,6 +92,7 @@ public class MainController {
         private String test = "default";
         private String username = "default";
         private String twoWords = "default";
+        private String mongodbUsername = "default";
 
         public PropertiesHolder() {
         }
@@ -101,6 +102,7 @@ public class MainController {
             this.test = openshiftProps.getTest();
             this.username = openshiftProps.getUsername();
             this.twoWords = openshiftProps.getTwoWords();
+            this.mongodbUsername = openshiftProps.getMongodbUsername();
         }
         @Override
         public String toString() {
@@ -110,6 +112,7 @@ public class MainController {
                     "<li>test=" + test + "</li>" +
                     "<li>username=" + username + "</li>" +
                     "<li>twoWords=" + twoWords + "</li>" +
+                    "<li>mongodbUsername=" + mongodbUsername + "</li>" +
                     "</ul>";
         }
     }
