@@ -15,3 +15,6 @@ vtb:
   application:
     prop:
       value: some value from application file in resources
+app:
+  data:
+    test: this value from application.properties

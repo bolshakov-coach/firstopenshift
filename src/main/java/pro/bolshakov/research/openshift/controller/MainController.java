@@ -83,6 +83,7 @@ public class MainController {
                     .append(source.getProperty(propertyName))
                     .append("</li>");
         }
+        builder.append("</ul>");
     }
 
 
