@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 public class MainController {
-
+    //change with master
     @Value("${test.var.message:not_found}")
     private String testText;
 
