@@ -7,7 +7,6 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
@@ -92,12 +91,15 @@ public class MainController {
         for (String service : discoveryClient.getServices()) {
             System.out.println(service);
         }
-        List<ServiceInstance> instances = discoveryClient.getInstances("rest-hello-world");
+        List<ServiceInstance> instances = discoveryClient.getInstances("resthelloworld");
         if(instances != null){
             System.out.println("Instances for rest-hello-world");
             instances.forEach(System.out::println);
         }
-        return "<h1>It is answer from second service</h1>";
+
+        String response = restTemplate.getForObject("http://resthelloworld", String.class);
+
+        return "<h1>It is answer from second service</h1>" + response;
     }
 
     private void addInfoAboutEnumerablePropertySource(StringBuilder builder, EnumerablePropertySource source){
