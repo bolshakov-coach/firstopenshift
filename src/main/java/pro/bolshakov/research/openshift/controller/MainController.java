@@ -2,9 +2,16 @@ package pro.bolshakov.research.openshift.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.AbstractEnvironment;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
+
+import java.util.Iterator;
+import java.util.Map;
 
 @RestController
 public class MainController {
@@ -14,6 +21,9 @@ public class MainController {
 
     @Value("${vtb.application.prop.value}")
     private String vtbAppPropValue;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private OpenshiftPropertiesConfig openshiftProperties;
@@ -34,6 +44,26 @@ public class MainController {
 
         builder.append(propertiesHolder.toString());
 
+        return builder.toString();
+    }
+
+    @GetMapping("/all")
+    public String allProperties(){
+        StringBuilder builder = new StringBuilder();
+        for(Iterator it = ((AbstractEnvironment) env).getPropertySources().iterator(); it.hasNext(); ) {
+            PropertySource propertySource = (PropertySource) it.next();
+            if (propertySource instanceof MapPropertySource) {
+                builder.append("<br><b>Source from ").append(propertySource.getName()).append("</b><br><ul>");
+                for (Map.Entry<String, Object> entry : ((MapPropertySource) propertySource).getSource().entrySet()) {
+                    builder.append("<li>Key -> ")
+                            .append(entry.getKey())
+                            .append(" = ")
+                            .append(entry.getValue())
+                            .append("</li>");
+                }
+                builder.append("</ul>");
+            }
+        }
         return builder.toString();
     }
 
