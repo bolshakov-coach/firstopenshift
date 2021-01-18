@@ -3,6 +3,8 @@ package pro.bolshakov.research.openshift.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,6 +35,9 @@ public class MainController {
     private OpenshiftPropertiesConfig openshiftProperties;
 
     private RestTemplate restTemplate = new RestTemplateBuilder().build();
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("")
     public String index(){
@@ -79,10 +85,19 @@ public class MainController {
         return builder.toString();
     }
 
-    @GetMapping("/discovery/{path}")
-    public String tryDiscovery(@PathVariable String path){
-        return "<h1>It is answer from second service</h1>" +
-                restTemplate.getForObject("http://" + path, String.class);
+    @GetMapping("/discovery")
+    public String tryDiscovery(){
+        System.out.println(discoveryClient.description());
+        System.out.println("Services");
+        for (String service : discoveryClient.getServices()) {
+            System.out.println(service);
+        }
+        List<ServiceInstance> instances = discoveryClient.getInstances("rest-hello-world");
+        if(instances != null){
+            System.out.println("Instances for rest-hello-world");
+            instances.forEach(System.out::println);
+        }
+        return "<h1>It is answer from second service</h1>";
     }
 
     private void addInfoAboutEnumerablePropertySource(StringBuilder builder, EnumerablePropertySource source){
