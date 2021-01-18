@@ -9,7 +9,7 @@ logging:
 
 spring:
   application:
-    name: openshift-sample
+    name: ${app.name:openshift-sample}
 
 vtb:
   application:

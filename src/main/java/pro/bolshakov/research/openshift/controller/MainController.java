@@ -2,9 +2,11 @@ package pro.bolshakov.research.openshift.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
 
 import java.util.Iterator;
@@ -27,6 +29,8 @@ public class MainController {
 
     @Autowired
     private OpenshiftPropertiesConfig openshiftProperties;
+
+    private RestTemplate restTemplate = new RestTemplateBuilder().build();
 
     @GetMapping("")
     public String index(){
@@ -72,6 +76,12 @@ public class MainController {
             }
         }
         return builder.toString();
+    }
+
+    @GetMapping("/discovery")
+    public String tryDiscovery(){
+        return "<h1>It is answer from second service</h1>" +
+                restTemplate.getForObject("http://second", String.class);
     }
 
     private void addInfoAboutEnumerablePropertySource(StringBuilder builder, EnumerablePropertySource source){
