@@ -10,6 +10,7 @@ public class OpenshiftPropertiesConfig {
     private String twoWords = "By default";
     private String anotherValue = "By default";
     private String mongodbUsername = "By default";
+    private String secondAppUrl = "resthelloworld.myproject.svc";
 
     public String getTest() {
         return test;
@@ -53,5 +54,13 @@ public class OpenshiftPropertiesConfig {
 
     public void setMongodbUsername(String mongodbUsername) {
         this.mongodbUsername = mongodbUsername;
+    }
+
+    public String getSecondAppUrl() {
+        return secondAppUrl;
+    }
+
+    public void setSecondAppUrl(String secondAppUrl) {
+        this.secondAppUrl = secondAppUrl;
     }
 }

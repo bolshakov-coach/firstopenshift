@@ -111,7 +111,7 @@ public class MainController {
             System.out.println("port -> " + instance.getPort());
             System.out.println("uri -> " + instance.getUri());
 
-            response = restTemplate.getForObject("http://resthelloworld.myproject.svc", String.class);
+            response = restTemplate.getForObject("http://" + openshiftProperties.getSecondAppUrl(), String.class);
         }
 
         return "<h1>It is answer from second service</h1>" + response;
@@ -140,6 +140,7 @@ public class MainController {
         private String username = "default";
         private String twoWords = "default";
         private String mongodbUsername = "default";
+        private String secondAppUrl = "default";
 
         public PropertiesHolder() {
         }
@@ -150,7 +151,9 @@ public class MainController {
             this.username = openshiftProps.getUsername();
             this.twoWords = openshiftProps.getTwoWords();
             this.mongodbUsername = openshiftProps.getMongodbUsername();
+            this.secondAppUrl = openshiftProps.getSecondAppUrl();
         }
+
         @Override
         public String toString() {
             return "PropertiesHolder ->" +
