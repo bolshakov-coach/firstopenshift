@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import pro.bolshakov.research.openshift.config.OpenshiftPropertiesConfig;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class MainController {
@@ -92,12 +90,16 @@ public class MainController {
             System.out.println(service);
         }
         List<ServiceInstance> instances = discoveryClient.getInstances("resthelloworld");
-        if(instances != null){
-            System.out.println("Instances for rest-hello-world");
-            instances.forEach(System.out::println);
-        }
+        instances = instances == null ? new ArrayList<>() : instances;
 
-        String response = restTemplate.getForObject("http://resthelloworld", String.class);
+        System.out.println("Instances for rest-hello-world");
+        instances.forEach(instance -> System.out.println(instance.getServiceId()));
+        Optional<ServiceInstance> first = instances.stream().findFirst();
+
+        String response = "none";
+        if(first.isPresent()){
+            response = restTemplate.getForObject("http://" + first.get().getServiceId(), String.class);
+        }
 
         return "<h1>It is answer from second service</h1>" + response;
     }
